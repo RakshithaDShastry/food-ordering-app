@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Ordering App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>🍽️ Food Ordering App</h1>
+    <h2>Select Your Favorite Food</h2>
+
+    <div class="menu-grid">
+        {% for item in menu %}
+<div class="menu-card">
+    <img src="{{ url_for('static', filename='images/' + item.image) }}" class="food-img">
+    <div class="food-name">{{ item.name }}</div>
+    <div class="price">₹{{ item.price }}</div>
+
+    <form action="/add_to_cart" method="post">
+        <input type="hidden" name="item" value="{{ item.name }}">
+        <button type="submit">Add to Cart</button>
+    </form>
+</div>
+{% endfor %}
+
+    </div>
+
+    <hr>
+
+    <h2>🛒 Cart</h2>
+
+    {% if cart %}
+        {% for item in cart %}
+            <p>{{ item.name }} - ₹{{ item.price }}</p>
+        {% endfor %}
+
+        <h3>Total: ₹{{ total }}</h3>
+
+        <a href="/checkout">
+            <button>Checkout</button>
+        </a>
+    {% else %}
+        <p>Cart is empty</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
