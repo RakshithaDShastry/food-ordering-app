@@ -28,7 +28,7 @@ A small food ordering web app built with **Flask (Python)**, containerised with 
 ## 📁 Project Structure
 
 ```
-food-ordering-devops/
+food-ordering-app/
 ├── app.py              # Flask app: routes for home, add to cart, checkout
 ├── requirements.txt    # Python dependencies (Flask)
 ├── Dockerfile          # Docker image definition
@@ -58,7 +58,7 @@ Prerequisite: [Docker](https://www.docker.com/get-started) installed.
 ```bash
 # Clone the repository
 git clone https://github.com/RakshithaDShastry/food-ordering-app.git
-cd food-ordering-devops
+cd food-ordering-app
 
 # Build the image
 docker build -t food-ordering-app .
@@ -75,7 +75,7 @@ Prerequisite: Python 3.11+
 
 ```bash
 git clone https://github.com/RakshithaDShastry/food-ordering-app.git
-cd food-ordering-devops
+cd food-ordering-app
 
 pip install -r requirements.txt
 python app.py
