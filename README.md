@@ -150,10 +150,13 @@ pipeline {
 
 ## 🔮 Future Improvements
 
-- Push the image to Docker Hub from the pipeline
+- Add the pipeline as a real `Jenkinsfile` in the repo
+- Add an automatic build trigger (Poll SCM or GitHub webhook)
+- Push the Docker image to Docker Hub from the pipeline
 - Add automated tests as a pipeline stage
-- Add a database for menu items and orders
-- User login and order history
+- Add a database and user login
+
+📘 For the architecture diagrams and workflow, see [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md).
 
 ## 📄 License
 
