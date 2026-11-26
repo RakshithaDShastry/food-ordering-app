@@ -57,7 +57,7 @@ Prerequisite: [Docker](https://www.docker.com/get-started) installed.
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR-USERNAME/food-ordering-devops.git
+git clone https://github.com/RakshithaDShastry/food-ordering-app.git
 cd food-ordering-devops
 
 # Build the image
@@ -74,7 +74,7 @@ Open **http://localhost:5000** in your browser.
 Prerequisite: Python 3.11+
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/food-ordering-devops.git
+git clone https://github.com/RakshithaDShastry/food-ordering-app.git
 cd food-ordering-devops
 
 pip install -r requirements.txt
@@ -85,36 +85,46 @@ Open **http://localhost:5000** in your browser.
 
 ## 🔄 CI/CD Pipeline (Jenkins)
 
-The goal of this project was to automate the build and deployment of the app:
+## 🔄 CI/CD Pipeline (Jenkins)
+
+The app is built and deployed with a Jenkins Pipeline job (`food-ordering-pipeline`) running on a local Windows machine. The build is started manually with **Build Now**.
 
 ```
-Git push ──▶ Jenkins pulls code ──▶ Docker image is built ──▶ Container is run
+Build Now ──▶ Clone from GitHub ──▶ Build Docker image ──▶ Replace running container
 ```
 
-Below is a sample `Jenkinsfile` that implements this flow. Adjust it to match your own Jenkins setup.
+### Pipeline stages
+
+1. **Clone from GitHub:** pulls the `master` branch of this repository.
+2. **Build Docker Image:** builds the image `food-ordering-app` from the `Dockerfile`.
+3. **Deploy Docker Container:** stops and removes the old `food-app` container (if any), then starts a new one on port 5000.
+
+### Pipeline script
 
 ```groovy
 pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+
+        stage('Clone from GitHub') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/YOUR-USERNAME/food-ordering-devops.git'
+                git branch: 'master',
+                url: 'https://github.com/RakshithaDShastry/food-ordering-app.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t food-ordering-app .'
+                bat 'docker build -t food-ordering-app .'
             }
         }
 
-        stage('Deploy Container') {
+        stage('Deploy Docker Container') {
             steps {
-                sh 'docker rm -f food-ordering-app || true'
-                sh 'docker run -d --name food-ordering-app -p 5000:5000 food-ordering-app'
+                bat 'docker stop food-app || exit 0'
+                bat 'docker rm food-app || exit 0'
+                bat 'docker run -d -p 5000:5000 --name food-app food-ordering-app'
             }
         }
     }
@@ -123,11 +133,11 @@ pipeline {
 
 ### Jenkins setup notes
 
-1. Install Jenkins and make sure the Jenkins user can run Docker commands (`sudo usermod -aG docker jenkins`, then restart Jenkins).
+1. Install Jenkins and Docker Desktop on the same Windows machine.
 2. Install the **Git** and **Pipeline** plugins.
-3. Create a new **Pipeline** job and point it at this repository (or paste the pipeline script above).
-4. Click **Build Now**, or add a GitHub webhook to trigger builds on every push.
-
+3. Create a new **Pipeline** job and paste the script above into the pipeline definition.
+4. Click **Build Now**, then open http://localhost:5000 to see the app.
+5. To trigger builds automatically on every push, tick **Poll SCM** (or set up a GitHub webhook) under the job's Triggers.
 ## 📸 Screenshots
 
 ![Menu page](screenshots/menu.png)
