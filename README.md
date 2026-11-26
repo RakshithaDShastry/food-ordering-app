@@ -130,7 +130,8 @@ pipeline {
 
 ## 📸 Screenshots
 
-_Add screenshots here: the menu page, the cart, the checkout page, and a successful Jenkins build._
+![Menu page](screenshots/menu.png)
+![Checkout page](screenshots/checkout.png)
 
 ## ⚠️ Notes
 
